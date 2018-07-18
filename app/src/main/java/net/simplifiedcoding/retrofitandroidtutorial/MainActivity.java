@@ -5,7 +5,14 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
  * Sign Up Activity
@@ -29,56 +36,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.textViewLogin).setOnClickListener(this);
     }
 
-    private void userSignUp(){
+    private void userSignUp() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String name = editTextName.getText().toString().trim();
         String school = editTextSchool.getText().toString().trim();
 
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             editTextEmail.setError("Email is required");
             editTextEmail.requestFocus();
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Enter a valid email");
             editTextEmail.requestFocus();
             return;
         }
 
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             editTextPassword.setError("Password required");
             editTextPassword.requestFocus();
             return;
         }
 
-        if(password.length() < 6){
+        if (password.length() < 6) {
             editTextPassword.setError("Password should be atleast 6 character long");
             editTextPassword.requestFocus();
             return;
         }
 
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             editTextName.setError("Name required");
             editTextName.requestFocus();
             return;
         }
 
-        if(school.isEmpty()){
+        if (school.isEmpty()) {
             editTextSchool.setError("School required");
             editTextSchool.requestFocus();
             return;
         }
 
+        Call<ResponseBody> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .createUser(email, password, name, school);
 
-        /* Do user registration using the api call*/
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                try {
+                    String s = response.body().string();
+                    Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.buttonSignUp:
                 userSignUp();
                 break;
