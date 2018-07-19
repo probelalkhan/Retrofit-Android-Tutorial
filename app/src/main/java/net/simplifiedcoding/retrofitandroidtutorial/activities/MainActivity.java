@@ -1,5 +1,6 @@
-package net.simplifiedcoding.retrofitandroidtutorial;
+package net.simplifiedcoding.retrofitandroidtutorial.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -7,14 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import net.simplifiedcoding.retrofitandroidtutorial.models.DefaultResponse;
+import net.simplifiedcoding.retrofitandroidtutorial.R;
+import net.simplifiedcoding.retrofitandroidtutorial.api.RetrofitClient;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
 
-                if(response.code() == 201){
+                if (response.code() == 201) {
 
                     DefaultResponse dr = response.body();
                     Toast.makeText(MainActivity.this, dr.getMsg(), Toast.LENGTH_LONG).show();
 
-                }else if(response.code() == 422){
+                } else if (response.code() == 422) {
                     Toast.makeText(MainActivity.this, "User already exist", Toast.LENGTH_LONG).show();
                 }
             }
@@ -119,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userSignUp();
                 break;
             case R.id.textViewLogin:
+
+                startActivity(new Intent(this, LoginActivity.class));
 
                 break;
         }

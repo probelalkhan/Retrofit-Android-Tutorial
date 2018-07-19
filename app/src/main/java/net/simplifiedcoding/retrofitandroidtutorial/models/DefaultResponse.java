@@ -1,4 +1,4 @@
-package net.simplifiedcoding.retrofitandroidtutorial;
+package net.simplifiedcoding.retrofitandroidtutorial.models;
 
 import com.google.gson.annotations.SerializedName;
 

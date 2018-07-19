@@ -1,6 +1,8 @@
-package net.simplifiedcoding.retrofitandroidtutorial;
+package net.simplifiedcoding.retrofitandroidtutorial.api;
 
-import okhttp3.ResponseBody;
+import net.simplifiedcoding.retrofitandroidtutorial.models.DefaultResponse;
+import net.simplifiedcoding.retrofitandroidtutorial.models.LoginResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -16,6 +18,13 @@ public interface Api {
             @Field("password") String password,
             @Field("name") String name,
             @Field("school") String school
+    );
+
+    @FormUrlEncoded
+    @POST("userlogin")
+    Call<LoginResponse> userLogin(
+            @Field("email") String email,
+            @Field("password") String password
     );
 
 }
