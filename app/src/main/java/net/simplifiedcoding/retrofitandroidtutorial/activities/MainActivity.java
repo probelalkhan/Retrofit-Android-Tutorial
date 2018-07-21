@@ -3,6 +3,7 @@ package net.simplifiedcoding.retrofitandroidtutorial.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import net.simplifiedcoding.retrofitandroidtutorial.models.DefaultResponse;
 import net.simplifiedcoding.retrofitandroidtutorial.R;
 import net.simplifiedcoding.retrofitandroidtutorial.api.RetrofitClient;
 import net.simplifiedcoding.retrofitandroidtutorial.storage.SharedPrefManager;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-
                 if (response.code() == 201) {
 
                     DefaultResponse dr = response.body();
@@ -114,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

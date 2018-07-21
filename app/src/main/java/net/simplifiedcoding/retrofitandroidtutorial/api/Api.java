@@ -5,6 +5,7 @@ import net.simplifiedcoding.retrofitandroidtutorial.models.LoginResponse;
 import net.simplifiedcoding.retrofitandroidtutorial.models.UsersResponse;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -42,5 +43,16 @@ public interface Api {
             @Field("name") String name,
             @Field("school") String school
     );
+
+    @FormUrlEncoded
+    @PUT("updatepassword")
+    Call<DefaultResponse> updatePassword(
+            @Field("currentpassword") String currentpassword,
+            @Field("newpassword") String newpassword,
+            @Field("email") String email
+    );
+
+    @DELETE("deleteuser/{id}")
+    Call<DefaultResponse> deleteUser(@Path("id") int id);
 
 }
